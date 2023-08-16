@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포인트충전페이지</title>
+    <link rel="stylesheet" href="css/ky.css">
+</head>
+
+<body>
+    <header>
+        <img src="img/logo.png">
+        <p style="font-size:30px; text-align: left; margin-left: 10%;">포인트 충전하기</p>
+        <hr style="border: 3px solid #D9D9D9;" />
+    </header>
+    <div class="pointcharge">
+        <p id="username">현재 <b>{{ loginPoint.userName }}</b>님의 포인트는</p>
+        <p id="userpoint"><b>{{ loginPoint.userPoint }}원</b> 입니다.</p>
+    </div>
+    <div>
+        <p style="font-size: x-large;">얼마를 충전하시겠습니까?</p>
+        <form action="/point" method="get">
+            <div style="margin: 5rem;">
+                <button id="pnumber" name="pnumber" value="10000">10,000</button>
+                <button id="pnumber"  name="pnumber" value="30000">30,000</button>
+            </div>
+            <div>
+                <button id="pnumber" name="pnumber" value="50000">50,000</button>
+                <button id="pnumber" name="pnumber" value="100000">100,000</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
+                <div>평일 09:00~18:00<br>
+                점심시간: 12:00~13:00<br>
+                주말/ 공휴일 휴무</div>
+        </div>
+
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">회사 정보</p>
+            <div>상호: (주) 할미  대표: 홍길동  주소: 인천광역시 연수구 송도동 12-1 <br>
+                사업자등록번호: 123-45-6789 <br>
+                대표전화: 1234-5678  팩스: 12-3456-78<br> <br>
+                COPYRIGHT © 2023 HALME ALL RIGHTS RESERVED</div>
+        </div>
+    </footer>
+</body>
+
+</html>

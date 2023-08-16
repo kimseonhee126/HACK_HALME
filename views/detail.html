@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/ky.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
+    <title>상세정보</title>
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="이미지1">
+        <hr style="border: 3px solid #D9D9D9;"/>
+    </header>
+    
+    <div style="display: flex; justify-content: center; align-items: top; margin: 1cm">
+        <img src="{{ productImage }}" alt="상품 이미지" style="border: 1px solid black;">
+        <span style="margin: 1cm; font-size: larger; font-weight: bold;">
+            <p id="result_Name" style="text-align: left;"></p>
+            <p style="text-align: left;">{{ productPrice }}원</p>
+            <div id="select" style="display: flex; ">
+                <button class="btn btn-outline-dark" onclick="addToCart('딸기1')">장바구니에 담기</button>
+                <button  class="btn btn-outline-dark" style="margin-left: 10px;" onclick="location.href='/payAddress'">결제하기</button>
+            </div> 
+        </span>
+    </div>
+    <footer>
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
+                <div>평일 09:00~18:00<br>
+                점심시간: 12:00~13:00<br>
+                주말/ 공휴일 휴무</div>
+        </div>
+
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">회사 정보</p>
+            <div>상호: (주) 할미  대표: 홍길동  주소: 인천광역시 연수구 송도동 12-1 <br>
+                사업자등록번호: 123-45-6789 <br>
+                대표전화: 1234-5678  팩스: 12-3456-78<br> <br>
+                COPYRIGHT © 2023 HALME ALL RIGHTS RESERVED</div>
+        </div>
+    </footer>
+<script>
+    
+const url = window.location.search;
+
+const urlvalues = new URLSearchParams(url);
+document.getElementById('result_Name').innerText=urlvalues.get('productName');
+
+function cart(foodTypeId) {
+    window.location.href = `/cart?foodTypeId=${foodTypeId}`;
+}
+</script>
+</body>
+</html>

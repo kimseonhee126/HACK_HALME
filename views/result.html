@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/ky.css">
+    <link rel="stylesheet" href="css/HalmeStyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
+    <title>상품 검색 결과</title>
+</head>
+
+<body>
+    <header>
+        <img src="img/logo.png" alt="이미지1">
+    </header>
+    <div class="Result">
+        <input type="text" id="search_result" name="search_result"
+            style="text-align: left; font-weight: bolder; font-size: larger; border-color: #00573F;" readonly>
+        <hr style="border: 3px solid #D9D9D9;" />
+        <div id="product_template">
+
+            {% for product in productData %}
+            <form action="/detail" method="get">
+                <div style="display: flex; justify-content: center; align-items: top; margin: 1cm">
+                    <img src="{{ product.foodImage }}" alt="상품 이미지" style="border: 1px solid black;">
+                    <span style="margin: 1cm; font-size: larger; font-weight: bold;">
+                        <input type="text" id="productName" name="productName" value="{{ product.foodName }}" readonly>
+                        <p style="text-align: left;">{{ product.foodPrice }}원</p>
+
+                        <!-- hidden input 필드 -->
+                        <input type="hidden" name="productPrice" value="{{ product.foodPrice }}">
+                        <input type="hidden" name="productImage" value="{{ product.foodImage }}">
+                        <input type="hidden" name="productFoodTypeId" value="{{ product.foodTypeId }}">
+                        <!-- hidden input 필드 -->
+
+                        <div style="display: flex;">
+                            <button class="btn btn-outline-dark" type="submit">구매</button>
+                        </div>
+                    </span>
+                </div>
+            </form>
+            {% endfor %}
+
+        </div>
+    </div>
+    <footer>
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
+                <div>평일 09:00~18:00<br>
+                점심시간: 12:00~13:00<br>
+                주말/ 공휴일 휴무</div>
+        </div>
+
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">회사 정보</p>
+            <div>상호: (주) 할미  대표: 홍길동  주소: 인천광역시 연수구 송도동 12-1 <br>
+                사업자등록번호: 123-45-6789 <br>
+                대표전화: 1234-5678  팩스: 12-3456-78<br> <br>
+                COPYRIGHT © 2023 HALME ALL RIGHTS RESERVED</div>
+        </div>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/ky.css">
+    <title>카테고리</title>
+</head>
+
+<body>
+    <header>
+        <img src="img/logo.png" alt="이미지1">
+        <h1>식품 종류를 선택해주세요</h1>
+    </header>
+    <div class="category">
+        <form action="/categoryResult" method="get">
+            <div id="cate">
+                <button type="submit" name="product" value="과일">과일</button>
+                <button type="submit" name="product" value="유제품">유제품</button>
+                <button type="submit" name="product" value="육류">육류</button>
+            </div>
+            <div id="cate2">
+                <button type="submit" name="product" value="채소">채소</button>
+                <button type="submit" name="product" value="수산물">수산물</button>
+                <button type="submit" name="product" value="쌀">쌀</button>
+            </div>
+            <div id="cate3">
+                <button type="submit" name="product" value="견과류">견과류</button>
+                <button type="submit" name="product" value="건어물">건어물</button>
+                <button type="submit" name="product" value="잡곡">잡곡</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
+                <div>평일 09:00~18:00<br>
+                점심시간: 12:00~13:00<br>
+                주말/ 공휴일 휴무</div>
+        </div>
+
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">회사 정보</p>
+            <div>상호: (주) 할미  대표: 홍길동  주소: 인천광역시 연수구 송도동 12-1 <br>
+                사업자등록번호: 123-45-6789 <br>
+                대표전화: 1234-5678  팩스: 12-3456-78<br> <br>
+                COPYRIGHT © 2023 HALME ALL RIGHTS RESERVED</div>
+        </div>
+    </footer>
+</body>
+
+</html>
