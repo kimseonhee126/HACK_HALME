@@ -19,25 +19,33 @@
         <div class="unselected"> <a href="/cart">장바구니</a></div>
         <div class="unselected">주문결제 - 배송지</a></div>
         <div class="unselected">주문결제 - 완료</a></div>
-        <div class="selected"> <a href="/orderList">주문내역 보기</a></div>
+        <div class="selected"> <a href="/cartOrderList">주문내역 보기</a></div>
     </div>
  
     <form action="/" method="get">
+        {% if message %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+        
+        {% for item in cartItems %}
         <div style="display: flex; justify-content: center; margin: 1cm; margin-top: 80px;">
-            <img id="productImg"src="../logo.png" alt="상품 이미지" style="border: 1px solid black;">
+            <img id="productImg"src="{{ item.foodImage }}" alt="상품 이미지" style="border: 1px solid black;">
             <span style="margin: 1cm; font-size: 30px; font-weight: bold;">
-                 <p id="productName">상품명~~~~~~~~~~~~~~~~~~~~~~</p>
-                 <p>19,900원</p>
+                 <p id="productName">{{ item.foodName }}</p>
+                 <p>{{ item.foodPrice }}원</p>
             </span>
             <p id="count" style="font-size: 60px; margin: 1cm;">1개</p>
         </div>
+        {% endfor %}
 
         <div style="margin:3cm; padding:15px; margin-top: 80px; border: 3px solid #00573F; background: #FFF7D7; text-align: right;">
             <span style="margin: 25px; font-size: 20px;">총 상품금액</span><span style="margin: 15px; font-size: 20px;">배송비</span><span style="margin: 80px; font-size: 20px;">합계</span>
             <br>
-            <span id="price" style="font-size: 40px;">19,900원 +  </span>
-            <span style="font-size: 40px;">0원 = </span>
-            <span id="totalPrice"style="font-size: 40px;">19,900원</span>
+            <span id="price" style="font-size: 40px;">{{ sumFoodPrices }}원 +  </span>
+            <span style="font-size: 40px;">2500원 = </span>
+            <span id="totalPrice"style="font-size: 40px;">{{ totalPrice }}원</span>
         </div>
 
 

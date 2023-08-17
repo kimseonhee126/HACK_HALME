@@ -24,7 +24,10 @@
             <p style="text-align: left;">{{ productPrice }}원</p>
             <div id="select" style="display: flex; ">
                 <button class="btn btn-outline-dark" onclick="addToCart('{{ foodTypeIdFromServer }}')">장바구니에 담기</button>
-                <button  class="btn btn-outline-dark" style="margin-left: 10px;" onclick="location.href='/payAddress'">결제하기</button>
+                <!-- hidden input 필드 -->
+                <input type="hidden" name="productPrice" value="{{ productPrice }}">
+                <!-- hidden input 필드 -->
+                <button  class="btn btn-outline-dark" style="margin-left: 10px;" onclick="payForItem('{{ foodTypeIdFromServer }}')">결제하기</button>
             </div> 
         </span>
     </div>
@@ -33,6 +36,11 @@
         function addToCart(foodTypeId) {
             window.location.href = `/cart?foodTypeId=${foodTypeId}`;
             console.log('addToCart 함수 호출: ' + foodTypeId);
+        }
+        
+        function payForItem(foodTypeId) {
+            const url = `/detailPayAddress?foodTypeId=${foodTypeId}`;
+            window.location.href = url;
         }
     </script>
 

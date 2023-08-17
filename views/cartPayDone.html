@@ -18,22 +18,21 @@
     <div class="orderWrapper">
         <div class="unselected"> <a href="/cart">장바구니</a></div>
         <div class="unselected">주문결제 - 배송지</a></div>
-        <div class="selected"><a href="/payDone">주문결제 - 완료</a></div>
+        <div class="selected"><a href="/cartPayDone">주문결제 - 완료</a></div>
         <div class="unselected">주문내역 보기</div>
     </div>
    
-
         <div class="signupDoneWrapper">
             <i class="bi bi-check-circle" style="font-size: 130px; color: #00573f;"></i>
             <div style="font-size: 50px;">결제 완료</div>
             <p style="font-size: 45px;">포인트에서 <span id="point"style=" font-weight: bolder;">{{ sumFoodPrices }}원</span>이 차감되었습니다. 
-            <br>잔여 포인트 <span id="remainPoint"style="font-weight: bolder;">{{ updatePoint | escape }}원</span></p>
+            <br>잔여 포인트 <span id="remainPoint"style="font-weight: bolder;">{{ updatePoint }}원</span></p>
            
             <div style="display: flex; justify-content: center; margin-top:90px;">
-                <form action="/orderList" method="get">
+                <form action="/cartOrderList" method="get">
                      <button  class="btn btn-outline-dark" style="font-size: 30px; margin-right: 50px;">주문내역 보기</button>
                  </form>
-                    <button  class="btn btn-outline-dark" style="font-size: 30px;" onclick="location.href='/'"> 쇼핑 계속하기</button> 
+                <button  class="btn btn-outline-dark" style="font-size: 30px;" onclick="location.href='/'"> 쇼핑 계속하기</button> 
             </div>    
         </div>
    

@@ -18,6 +18,7 @@ img{
 #productImg{
     width:196px;
     height: 196px;
+    align-content: center;
 }
 
 .orderWrapper a {

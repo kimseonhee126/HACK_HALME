@@ -1,0 +1,13 @@
+{% for item in cartItems %}
+<li class="productWrapper" style=" list-style-type: none;">
+    <ul class="product">
+        <img id="productImg"src="{{ item.foodImage }}" alt="상품 이미지" style="border: 1px solid black;">
+        <div style="margin: 1cm; font-size: 40px; font-weight: bold;">
+            <input style="display: none;" type="text"name="productName"><p id="productName"style="width:500px; height: 50px;">{{ item.foodName }}</p>
+            <p id="productPrice"style="float: left;">{{ item.foodName }}원</p>
+        </div>
+        <p style="font-size: 50px; margin: 1cm;" id="productCount">1개</p>
+        <i class="bi bi-x-lg" id="deleteButton"style="font-size: 40px; margin: 1cm; color:grey;"></i> 
+    </ul>
+</li>
+{% endfor %}

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
@@ -19,7 +22,7 @@
         <div class="unselected">주문내역 보기</div>
     </div>
  
-    <form class="cartForm" action="/payAddress" method="get">
+    <form class="cartForm" action="/cartPayAddress" method="get">
         <!-- 장바구니에 물건이 있는 경우 -->
         {% if message %}
         <div class="alert alert-danger" role="alert">
@@ -29,22 +32,23 @@
 
         {% for item in cartItems %}
         <li class="productWrapper" style=" list-style-type: none;">
-                <ul class="product">
-                    <img id="productImg"src="{{ item.foodImage }}" alt="상품 이미지" style="border: 1px solid black;">
-                    <span style="margin: 1cm; font-size: 40px; font-weight: bold;">
-                        <p id="productName">{{ item.foodName }}</p>
-                        <p id="productPrice"style="float: left;">{{ item.foodPrice }}원</p>
-                    </span>
-                    <p style="font-size: 50px; margin: 1cm;" id="productCount">1개</p>
-                    <i class="bi bi-x-lg" id="deleteButton"style="font-size: 40px; margin: 1cm; color:grey;"></i> 
-                </ul>
+            <ul class="product">
+                <img id="productImg"src="{{ item.foodImage }}" alt="상품 이미지" style="border: 1px solid black;">
+                <div style="margin: 1cm; font-size: 40px; font-weight: bold;">
+                    <input style="display: none;" type="text"name="productName"><p id="productName"style="width:800px; height: 50px;">{{ item.foodName }}</p>
+                    <p id="productPrice"style="float: left;">{{ item.foodPrice }}원</p>
+                </div>
+                <p style="font-size: 50px; margin: 1cm;" id="productCount">1개</p>
+                <i class="bi bi-x-lg" id="deleteButton"style="font-size: 40px; margin: 1cm; color:grey;"></i> 
+            </ul>
         </li>
         {% endfor %}
+
         <div class="d-grid gap-2 col-4 mx-auto" >
             <button type="submit"  class="btn btn-outline-dark" style="font-size: 30px; margin-top: 100px; " > 장바구니에 담긴 상품을 구매하기</button> 
         </div>    
     </form>
-
+    
     <footer>
         <div>
             <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
@@ -61,7 +65,6 @@
                 COPYRIGHT © 2023 HALME ALL RIGHTS RESERVED</div>
         </div>
     </footer>
-
 <script src="js/cart.js"></script>
 </body>
 </html>
