@@ -4,10 +4,8 @@ const app = express();
 const db = require('./models/index');
 const { Op } = require('sequelize');
 const session = require('express-session');
-const halme_foods_v2s = require('./models/halme_foods_v2s');
 const { Users } = db;
 const { Foods } = db;
-const router = express.Router();
 
 // static 파일 경로 위치 알려주기
 app.use(express.static('public'));
@@ -16,18 +14,19 @@ app.use(express.urlencoded({extended: true}));
 app.use('/css', express.static(__dirname + 'public/css'));
 app.use('/img', express.static(__dirname + 'public/img'));
 app.use('/js', express.static(__dirname + 'public/js'));
-// session 사용하기
-app.use(session({
-    secret:'keyboard cat',
-    resave:false,
-    saveUninitialize:false
-}));
 
 // html 파일 경로 위치 알려주기
 app.set("view engine", 'html');
 nunjucks.configure('./views', {
     express: app
 });
+
+// session 사용하기
+app.use(session({
+    secret:'keyboard cat',
+    resave:false,
+    saveUninitialized:true
+}));
 
 // main 페이지
 app.get('/', async (req, res) => {
@@ -92,21 +91,22 @@ app.get('/detail', async(req, res) => {
     const productName = req.query.productName;
     const productPrice = req.query.productPrice;
     const productImage = req.query.productImage;
-    const productFoodTypeId = req.query.productFoodTypeId;
+    const foodTypeIdFromServer = req.query.productFoodTypeId;
 
-    res.render("detail", { productName, productPrice, productImage, productFoodTypeId });
+    res.render("detail", { productName, productPrice, productImage, foodTypeIdFromServer });
 });
-
-// detail 페이지 -> 장바구니 추가
-
 
 // cart(장바구니) 페이지
 app.get('/cart', async (req, res) => {
     const loginUser = req.session.username;
     const reqFoodTypeId = req.query.foodTypeId;
-    console.log('reqFoodTypeId: ', reqFoodTypeId, '\n');
 
     // 로그인 되지 않은 상태면 -> login 페이지로 이동하기
+    if (!loginUser || loginUser === undefined)
+    {
+        return res.render('login.html', { message: '로그인이 되어 있지 않습니다!!' });
+    }
+
     try
     {
         // noncart -> 장바구니에 아무것도 없을 때
@@ -129,10 +129,6 @@ app.get('/cart', async (req, res) => {
             const cartItemsArray = loginCart.userCart.split(',').map(item => item.trim());
             console.log(cartItemsArray);
 
-            const cartItems = await Foods.findAll({
-                where: { foodTypeId: cartItemsArray }
-            });
-
             // 중복 요소 관리
             let userCartSet = new Set(loginCart.userCart ? loginCart.userCart.split(',') : []);
             userCartSet.add(reqFoodTypeId);
@@ -144,6 +140,12 @@ app.get('/cart', async (req, res) => {
                 { userCart: userCartArray.join(',') },
                 { where: { userName: loginUser } }
             );
+
+            // 장바구니에 있는 item 조회
+            const cartItems = await Foods.findAll({
+                where: { foodTypeId: userCartArray }
+            });
+
             console.log('cart 페이지 render 됨\n');
             res.render('cart', { cartItems });
         }
@@ -155,31 +157,6 @@ app.get('/cart', async (req, res) => {
     }
 });
 
-app.post('/cart', async (req, res) => {
-    const loginUser = req.session.username;
-
-    try
-    {
-        const user = await Users.findOne({
-            where: { userName: loginUser }
-        });
-
-        let userCartArray = user.userCart ? user.userCart.split(',') : [];
-        userCartArray.push(foodTypeId);
-
-        // 배열을 문자열로 변환하여 업데이트
-        await Users.update(
-            { userCart: userCartArray.join(',') },
-            { where: { userName: loginUser } }
-        );
-
-    }
-    catch (err)
-    {
-
-    }
-})
-
 // orderList 주문내역 보기
 app.get('/orderList', (req, res) => {
     res.render('orderList');
@@ -189,9 +166,10 @@ app.get('/orderList', (req, res) => {
 app.get('/payAddress', async (req, res) => {
     const loginUser = req.session.username;
 
-    if (!loginUser)
+    // 로그인 되지 않은 상태면 -> login 페이지로 이동하기
+    if (!loginUser || loginUser === undefined)
     {
-        res.render('login');
+        return res.render('login.html', { message: '로그인이 되어 있지 않습니다!!' });
     }
 
     try
@@ -237,6 +215,12 @@ app.post('/payAddress', async(req, res) => {
 app.get('/pointCharge', async (req, res) => {
     const loginUser = req.session.username;
 
+    // 로그인 되지 않은 상태면 -> login 페이지로 이동하기
+    if (!loginUser || loginUser === undefined)
+    {
+        return res.render('login.html', { message: '로그인이 되어 있지 않습니다!!' });
+    }
+
     if (!loginUser)
     {
         res.render('login');
@@ -255,9 +239,10 @@ app.get('/point', async (req, res) => {
     const loginUser = req.session.username;
     const pointResult = parseInt(req.query.pnumber);
 
-    if (!loginUser)
+    // 로그인 되지 않은 상태면 -> login 페이지로 이동하기
+    if (!loginUser || loginUser === undefined)
     {
-        res.render('login');
+        return res.render('login.html', { message: '로그인이 되어 있지 않습니다!!' });
     }
     
     try
@@ -287,24 +272,24 @@ app.get('/point', async (req, res) => {
 // payDone 페이지
 app.get('/payDone', async(req, res) => {
     const loginUser = req.session.username;
-    const request = req.body
 
-    if (!loginUser)
+    // 로그인 되지 않은 상태면 -> login 페이지로 이동하기
+    if (!loginUser || loginUser === undefined)
     {
-        res.render('login');
+        return res.render('login.html', { message: '로그인이 되어 있지 않습니다!!' });
     }
 
     try
     {
-        const payPoint = await Users.findOne({
+        const loginPoint = await Users.findOne({
             where: { userName: loginUser }
         });
 
         // payItemsArray에 해당 과일 저장
-        const payItemsArray = payPoint.userCart.split(',').map(item => item.trim());
+        const payItemsArray = loginPoint.userCart.split(',').map(item => item.trim());
         console.log(payItemsArray);
 
-        // payItemsArray에서 가격을 어떻게 빼오지?
+        // payItemsArray에서 가격만 빼와서 배열로 만들기
         const payItems = await Foods.findAll({
             where: { foodTypeId: payItemsArray }
         });
@@ -317,15 +302,26 @@ app.get('/payDone', async(req, res) => {
             sumFoodPrices = sumFoodPrices + foodPrices[i];   
         }
 
-        let updatePoint = payPoint.userPoint - sumFoodPrices;
-        console.log('구매하기 user point 업데이트 완료!');
+        // 사용자 db에 저장할 userPoint 값 업데이트 하기
+        let updatePoint = loginPoint.userPoint - sumFoodPrices;
 
-        await Users.update(
-            { userPoint: updatePoint },
-            { where: { userName: loginUser } }
-        );
+        // 포인트 부족하면 pointCharge 페이지로 이동
+        if (updatePoint < 0)
+        {
+            console.log('사용자의 point가 부족합니다!');
+            res.render('pointCharge', { loginPoint, message: '포인트가 부족하여 결제할 수 없습니다!!'});
+        }
+        else
+        {
+            console.log('구매하기 user point 업데이트 완료!');
 
-        res.render('payDone', { foodPrices, sumFoodPrices, updatePoint });
+            await Users.update(
+                { userPoint: updatePoint },
+                { where: { userName: loginUser } }
+            );
+
+            res.render('payDone', { foodPrices, sumFoodPrices, updatePoint });
+        }
     }
     catch (err)
     {
@@ -341,7 +337,6 @@ app.get('/signUp', (req, res) => {
 
 // user 추가하기
 app.post('/signUp', async(req, res) => {
-
     await Users.create({
         userName: req.body.inputName,
         userPhone: req.body.inputPhone,

@@ -23,11 +23,19 @@
             <p id="result_Name" style="text-align: left;"></p>
             <p style="text-align: left;">{{ productPrice }}원</p>
             <div id="select" style="display: flex; ">
-                <button class="btn btn-outline-dark" onclick="addToCart('딸기1')">장바구니에 담기</button>
+                <button class="btn btn-outline-dark" onclick="addToCart('{{ foodTypeIdFromServer }}')">장바구니에 담기</button>
                 <button  class="btn btn-outline-dark" style="margin-left: 10px;" onclick="location.href='/payAddress'">결제하기</button>
             </div> 
         </span>
     </div>
+
+    <script>
+        function addToCart(foodTypeId) {
+            window.location.href = `/cart?foodTypeId=${foodTypeId}`;
+            console.log('addToCart 함수 호출: ' + foodTypeId);
+        }
+    </script>
+
     <footer>
         <div>
             <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
@@ -51,9 +59,6 @@ const url = window.location.search;
 const urlvalues = new URLSearchParams(url);
 document.getElementById('result_Name').innerText=urlvalues.get('productName');
 
-function cart(foodTypeId) {
-    window.location.href = `/cart?foodTypeId=${foodTypeId}`;
-}
 </script>
 </body>
 </html>

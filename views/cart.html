@@ -19,9 +19,15 @@
         <div class="unselected">주문내역 보기</div>
     </div>
  
-    {% for item in cartItems %}
     <form class="cartForm" action="/payAddress" method="get">
         <!-- 장바구니에 물건이 있는 경우 -->
+        {% if message %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        {% for item in cartItems %}
         <li class="productWrapper" style=" list-style-type: none;">
                 <ul class="product">
                     <img id="productImg"src="{{ item.foodImage }}" alt="상품 이미지" style="border: 1px solid black;">
@@ -40,8 +46,22 @@
     </form>
 
     <footer>
-        <p>Copyright © 2023 HALME All rights reserved.</p>
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">할미 고객센터 1234-5678</p>
+                <div>평일 09:00~18:00<br>
+                점심시간: 12:00~13:00<br>
+                주말/ 공휴일 휴무</div>
+        </div>
+
+        <div>
+            <p style="font-size: 30px; font-weight: bolder;">회사 정보</p>
+            <div>상호: (주) 할미  대표: 홍길동  주소: 인천광역시 연수구 송도동 12-1 <br>
+                사업자등록번호: 123-45-6789 <br>
+                대표전화: 1234-5678  팩스: 12-3456-78<br> <br>
+                COPYRIGHT © 2023 HALME ALL RIGHTS RESERVED</div>
+        </div>
     </footer>
+
 <script src="js/cart.js"></script>
 </body>
 </html>

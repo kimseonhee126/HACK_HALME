@@ -27,7 +27,7 @@
             <i class="bi bi-check-circle" style="font-size: 130px; color: #00573f;"></i>
             <div style="font-size: 50px;">결제 완료</div>
             <p style="font-size: 45px;">포인트에서 <span id="point"style=" font-weight: bolder;">{{ sumFoodPrices }}원</span>이 차감되었습니다. 
-            <br>잔여 포인트 <span id="remainPoint"style="font-weight: bolder;">{{ updatePoint }}원</span></p>
+            <br>잔여 포인트 <span id="remainPoint"style="font-weight: bolder;">{{ updatePoint | escape }}원</span></p>
            
             <div style="display: flex; justify-content: center; margin-top:90px;">
                 <form action="/orderList" method="get">

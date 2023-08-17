@@ -23,6 +23,10 @@
     </div>
 
     <form class="signupWrapper" method="POST" action="/login">
+        {% if message %}
+        <p style="color: red;">{{ message }}</p>
+        {% endif %}
+        
         <div class="signupContent">
              <div>이름</div><input name="inputName"placeholder="홍길동" required>
         </div>
