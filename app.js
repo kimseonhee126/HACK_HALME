@@ -99,7 +99,9 @@ app.get('/detail', async(req, res) => {
 // cart(장바구니) 페이지
 app.get('/cart', async (req, res) => {
     const loginUser = req.session.username;
+    console.log(loginUser);
     const reqFoodTypeId = req.query.foodTypeId;
+    console.log(reqFoodTypeId);
 
     // 로그인 되지 않은 상태면 -> login 페이지로 이동하기
     if (!loginUser || loginUser === undefined)
@@ -109,45 +111,46 @@ app.get('/cart', async (req, res) => {
 
     try
     {
-        // noncart -> 장바구니에 아무것도 없을 때
         const loginCart = await Users.findOne({
             where: { userName: loginUser},
         });
 
+        // 중복 요소 관리
+        let userCartSet = new Set(loginCart.userCart ? loginCart.userCart.split(',') : []);
+        userCartSet.add(reqFoodTypeId);
+        console.log('userCartSet: ', userCartSet);
+        const userCartArray = Array.from(userCartSet);
+
+        // 배열을 문자열로 변환하여 업데이트
+        await Users.update(
+            { userCart: userCartArray.join(',') },
+            { where: { userName: loginUser } }
+        );
+
+        // 장바구니에 있는 모든 품목들 보여주기 위해
+        const cartItemsArray = loginCart.userCart.split(',').map(item => item.trim());
+        console.log('cartItemsArray: ', cartItemsArray);
+
+        // 장바구니에 있는 item 조회
+        const cartItems = await Foods.findAll({
+            where: { foodTypeId: userCartArray }
+        });
+
+        console.log('cart 페이지 render 됨\n');
+        res.render('cart', { cartItems });
+
         if (!loginCart)
         {
+            console.log('장바구니 안들어가짐 1');
             console.log('noncart 페이지 render 됨\n');
-            res.render('noncart');
+            return res.render('noncart');
         }
 
         if (!loginCart.userCart || loginCart.userCart.length === 0)
         {
+            console.log('장바구니 안들어가짐 2');
             console.log('noncart 페이지 render 됨\n');
-            res.render('noncart');
-        } else {
-            // 장바구니에 있는 모든 품목들 보여주기 위해
-            const cartItemsArray = loginCart.userCart.split(',').map(item => item.trim());
-            console.log(cartItemsArray);
-
-            // 중복 요소 관리
-            let userCartSet = new Set(loginCart.userCart ? loginCart.userCart.split(',') : []);
-            userCartSet.add(reqFoodTypeId);
-            console.log('userCartSet: ', userCartSet);
-            const userCartArray = Array.from(userCartSet);
-
-            // 배열을 문자열로 변환하여 업데이트
-            await Users.update(
-                { userCart: userCartArray.join(',') },
-                { where: { userName: loginUser } }
-            );
-
-            // 장바구니에 있는 item 조회
-            const cartItems = await Foods.findAll({
-                where: { foodTypeId: userCartArray }
-            });
-
-            console.log('cart 페이지 render 됨\n');
-            res.render('cart', { cartItems });
+            return res.render('noncart');
         }
     }
     catch (error)
@@ -436,6 +439,7 @@ app.post('/signUp', async(req, res) => {
         userPhone: req.body.inputPhone,
         userAddress: req.body.inputAddress,
         userPoint: 0,
+        userCart: '과일0',
     }).then(result => {
         console.log('Success Add UserData\n');
         res.redirect('/signUpDone');
