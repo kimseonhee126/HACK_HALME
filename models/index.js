@@ -47,10 +47,10 @@ const Sequelize = require('sequelize');
 const config = require('../config/config.json');
 
 // const { username, password, database, host, dialect } = config.development;
-const sequelize = new Sequelize('HALME_V2', 'root', 'wktlr011226!', {
+const sequelize = new Sequelize('####', 'root', '####', {
   host: '127.0.0.1',
   dialect: 'mysql',
-  port: 8080,
+  port: '####',
 });
 
 const Users = require('./halme_users_v2s')(sequelize, Sequelize.DataTypes);

@@ -1,11 +1,11 @@
 {
   "development": {
     "username": "root",
-    "password": "wktlr011226!",
-    "database": "HALME_V2",
+    "password": "####",
+    "database": "####",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "port": 8080
+    "port": "####"
   },
   "test": {
     "username": "root",
